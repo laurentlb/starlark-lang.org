@@ -1,3 +1,12 @@
+#resources, #about {
+    max-width: 800px;
+    background: white;
+    margin: 1em;
+    border: 1px solid #888;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+    align-self: center;
+}
+
 .error {
     padding: 20px 0 0;
     color: #F00;
@@ -136,6 +145,11 @@ label {
 
 
 /* Tabs */
+.tabs-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .tabs {
     display: flex;
     background-color: #333;

@@ -10,6 +10,7 @@
   <script type="text/javascript" src="third_party/codeflask.min.js"></script>
   <script type="text/javascript" src="third_party/prism-python.js"></script>
   <script type="text/javascript" src="wasm_exec.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script type="text/javascript">
     async function run(fileUrl) {
       try {
@@ -35,6 +36,7 @@
     <div class="tabs">
       <h1>Starlark</h1>
       <button class="tab-button active" data-tab="playground">Playground</button>
+      <button class="tab-button" data-tab="resources">Resources</button>
       <button class="tab-button" data-tab="about">About</button>
     </div>
 
@@ -57,6 +59,10 @@
       </div>
     </div>
 
+    <div id="resources" class="tab-content">
+      <div id="resources-content">Loading resources...</div>
+    </div>
+
   <div id="about" class="tab-content">
     <h2>About</h2>
     <p>Starlark is a dialect of Python, designed to be embedded in other applications.
@@ -67,12 +73,12 @@
       readable syntax. You can use it as an expressive notation for structured data,
       defining functions to eliminate repetition, or you can use it to add scripting
       capabilities to an existing application.
-    <p>This website is very much not finished - <a href="https://github.com/laurentlb/starlark-lang.org">https://github.com/laurentlb/starlark-lang.org</a></p>
+    <p>See the source of this website and contribute at: <a href="https://github.com/laurentlb/starlark-lang.org">https://github.com/laurentlb/starlark-lang.org</a></p>
   </div>
 
   </div>
 </div>
-    
+
 <script>
   const flask = new CodeFlask('.code-editor', {
     language: 'py',
@@ -154,6 +160,31 @@ print("Hello {}!".format(name))
       button.classList.add('active');
       document.getElementById(button.dataset.tab).classList.add('active');
     });
+  });
+
+// Load and convert Markdown for the Resources tab
+const resourcesContent = document.getElementById('resources-content');
+
+// Fetch the Markdown file
+fetch('/awesome-starlark/README.md')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to load resources.');
+    }
+    return response.text();
+  })
+  .then(markdown => {
+    // Remove things before the first ## heading.
+    const trimmedMarkdown = markdown.split(/^## /m).slice(1).join('## ');
+    const cleanedMarkdown = '## ' + trimmedMarkdown; // Re-add the first ## for proper Markdown formatting
+    const header = `*Suggest resources by opening a pull request on [awesome-starlark](https://github.com/laurentlb/awesome-starlark)*\n\n`;
+
+    // Convert Markdown to HTML using Marked.js
+    const html = marked.parse(header + cleanedMarkdown);
+    resourcesContent.innerHTML = html;
+  })
+  .catch(error => {
+    resourcesContent.textContent = 'Error loading resources: ' + error.message;
   });
 
 </script>
