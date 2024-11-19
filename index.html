@@ -1,0 +1,169 @@
+<html>
+<head>
+
+<title>Try Starlark - Online Starlark interpreter</title>
+<meta charset="utf-8">
+
+<style>
+
+.codebox {
+  outline: none;
+  height: 600px;
+  border-radius: 10px;
+}
+
+.error {
+    padding: 20px 0 0;
+    color: #F00;
+}
+
+code {
+    white-space: pre-wrap;
+}
+
+.code-window {
+  width: 662px;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+  border: 1px solid #000;
+  margin: 1rem;
+  overflow: hidden;
+  border-radius: 0.8rem;
+  float: left;
+}
+
+.code-editor {
+  position: relative;
+  width: 100%;
+  height: 600px;
+}
+
+section {
+  display: none;
+}
+
+input {
+  display: none;
+}
+
+label {
+  display: inline-block;
+  margin: 0 0 -1px;
+  padding: 15px 25px;
+  font-weight: 600;
+  text-align: center;
+  color: #abc;
+  border: 1px solid #000;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+}
+
+h1 { color: #666; text-align: center; }
+
+</style>
+
+<script type="text/javascript" src="third_party/codeflask.min.js"></script>
+<script type="text/javascript" src="third_party/prism-python.js"></script>
+<script type="text/javascript" src="wasm_exec.js"></script>
+<script type="text/javascript">
+  async function run(fileUrl) {
+      try {
+	  const go = new Go();
+	  const file = await fetch(fileUrl, {cache: "no-cache"});
+	  const buffer = await file.arrayBuffer();
+	  const { instance } = await WebAssembly.instantiate(buffer, go.importObject);
+	  go.run(instance);
+          init();
+      } catch (err) {
+	  console.error(err);
+      }
+  }
+  setTimeout(() => run("/build/starlark-go.wasm"));
+</script>
+
+</head>
+
+<body>
+
+<h1>Starlark Playground</h1>
+
+
+<p>When you modify this <a href="https://github.com/bazelbuild/starlark">Starlark</a> code, it is
+executed in the background.</p>
+
+<p>The code uses the <a href="https://github.com/google/starlark-go">Starlark interpreter in Go</a>,
+compiled to WebAssembly.</p>
+
+
+<div class="code-window">
+  <div class="code-editor"></div>
+</div>
+
+  <div class="error" id="error"></div>
+
+  <code id="output"></code>
+
+<script>
+const flask = new CodeFlask('.code-editor', {
+  language: 'py',
+  lineNumbers: true
+});
+
+  flask.addLanguage('py', Prism.languages.python)
+
+
+  var error = document.getElementById("error");
+  var output = document.getElementById("output");
+  var wrapper = document.getElementById("wrapper");
+
+  // Called from main.go
+  function setError(msg) {
+      error.textContent = msg;
+  }
+
+  // Called from main.go
+  function updateOutput(msg) {
+      output.textContent += msg + "\n";
+  }
+
+  function init() {
+      flask.updateCode(`def sqr(x): return x * x
+
+a = [sqr(x) for x in range(7)]
+
+_string_methods = dir("")
+
+first_string_methods = _string_methods[0:5]
+
+hashes = { str(x): hash(str(x)) for x in range(4) }
+
+empty = {}
+
+esc = "\\x42"
+
+data = {
+    "a dict": {
+        "title": "example",
+        "count": 2,
+        "nested": {
+            "more nested": "yes",
+        }
+    },
+}
+
+name = "world"
+print("Hello {}!".format(name))
+`);
+
+      flask.onUpdate((code) => {
+          // Triggered whenever the code is updated.
+          error.textContent = "";
+          output.textContent = "";
+          evalStarlark(flask.getCode()); // wasm function (in main.go)
+      });
+  }
+
+</script>
+
+</body>
+
+</html>
