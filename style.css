@@ -5,6 +5,12 @@
     border: 1px solid #888;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
     align-self: center;
+    padding: 20px;
+}
+
+#playground {
+    height: 100%;
+    overflow: hidden;
 }
 
 .error {
@@ -18,11 +24,6 @@ code {
 
 .code-window {
     background: #fff;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
-    border: 1px solid #000;
-    margin: 1rem;
-    overflow: hidden;
-    border-radius: 0.8rem;
     position: relative;
     height: 100%;
 }
@@ -54,14 +55,13 @@ body {
     display: flex;
     flex-direction: row;
     background: #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 90vh;
+    width: 100%;
+    height: 100%;
 }
 
 .editor-container,
 .output-container {
-    flex: 0 0 49%;
+    flex: 0 0 50%;
     display: flex;
     flex-direction: column;
     min-width: 200px;
@@ -69,9 +69,8 @@ body {
 
 label {
     font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-    padding: 10px;
+    color: #333;
+    padding: 0.5em;
     background: #ccc;
 }
 
@@ -92,13 +91,11 @@ label {
     cursor: text;
 }
 
-.output {
-    border-left: 1px solid #aaa;
-}
-
 .resizer {
-    width: 5px;
+    min-width: 4px;
     background: #aaa;
+    border: solid #333;
+    border-width: 0px 1px;
     cursor: ew-resize;
 }
 
@@ -148,12 +145,12 @@ label {
 .tabs-container {
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 
 .tabs {
     display: flex;
     background-color: #333;
-    border-bottom: 1px solid #444;
 }
 
 .tab-button {
@@ -173,7 +170,7 @@ label {
 .tab-button.active {
     background: #444;
     color: #bbf;
-    border-style: dashed;
+    border: 1px solid #bbf;
 }
 
 .tab-button:hover {
@@ -183,7 +180,6 @@ label {
 /* Tab content */
 .tab-content {
     display: none;
-    padding: 20px;
     animation: fadeIn 0.3s ease;
 }
 
