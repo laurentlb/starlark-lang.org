@@ -1,3 +1,6 @@
 [submodule "awesome-starlark"]
 	path = awesome-starlark
 	url = https://github.com/laurentlb/awesome-starlark
+[submodule "starlark-spec"]
+	path = starlark-spec
+	url = https://github.com/bazelbuild/starlark

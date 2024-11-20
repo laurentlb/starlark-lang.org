@@ -1,11 +1,31 @@
-#resources, #about {
+#resources, #about, #spec {
     max-width: 800px;
     background: white;
     margin: 1em;
     border: 1px solid #888;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
     align-self: center;
-    padding: 20px;
+    padding: 16px;
+
+    @media (max-width: 820px) {
+        margin: 0;
+        padding: 8px;
+    }
+
+    h1 {
+        color: #111;
+    }
+
+    code {
+        background: #eee;
+    }
+
+    pre {
+        background: #eee;
+        padding: 4px;
+        border-radius: 4px;
+        
+    }
 }
 
 #playground {
@@ -35,11 +55,12 @@ code {
 }
 
 h1 {
+    flex: 1;
     align-content: center;
     color: #ddd;
     font-size: 24px;
-    margin: 0;
-    padding: 4px 1em;
+    margin: 0px;
+    padding: 0px 8px;
     text-align: center;
 }
 
@@ -74,6 +95,10 @@ label {
     background: #ccc;
 }
 
+ul {
+    padding-left: 1.5em;
+}
+
 .editor,
 .output {
     flex: 1;
@@ -105,30 +130,10 @@ label {
     margin-top: 20px;
 }
 
-.button {
-    background-color: #ffcc00;
-    color: #1e1e1e;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #ffaa00;
-}
-
 /* Responsive Layout */
 @media (max-width: 820px) {
     .editor-output-container {
         flex-direction: column;
-    }
-
-    .output {
-        border-left: none;
-        border-top: 1px solid #444;
     }
 
     .resizer {
@@ -155,7 +160,6 @@ label {
 
 .tab-button {
     flex: 1;
-    margin: 1em;
     padding: 0.5em;
     text-align: center;
     background: #333;
@@ -164,7 +168,8 @@ label {
     cursor: pointer;
     border: none;
     outline: none;
-    transition: background 0.3s ease, color 0.3s ease;
+    margin: 8px 4px;
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 .tab-button.active {

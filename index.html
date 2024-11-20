@@ -35,12 +35,13 @@
     <!-- Tabs -->
     <div class="tabs">
       <h1>Starlark</h1>
-      <button class="tab-button active" data-tab="playground">Playground</button>
+      <button class="tab-button active" data-tab="about">About</button>
+      <button class="tab-button" data-tab="playground">Playground</button>
       <button class="tab-button" data-tab="resources">Resources</button>
-      <button class="tab-button" data-tab="about">About</button>
+      <button class="tab-button" data-tab="spec">Spec</button>
     </div>
 
-    <div id="playground" class="tab-content active">
+    <div id="playground" class="tab-content">
       <div id="code-container" class="editor-output-container">
         <div class="editor-container">
           <label for="editor">Code Editor</label>
@@ -63,8 +64,11 @@
       <div id="resources-content">Loading resources...</div>
     </div>
 
-  <div id="about" class="tab-content">
-    <h2>About</h2>
+    <div id="spec" class="tab-content">
+      <div id="spec-content">Loading resources...</div>
+    </div>
+
+  <div id="about" class="tab-content active">
     <p>Starlark is a dialect of Python, designed to be embedded in other applications.
       Like Python, it is a dynamically typed language with high-level data types,
       first-class functions with lexical scope, and garbage collection. Independent
@@ -186,5 +190,26 @@ fetch('/awesome-starlark/README.md')
   .catch(error => {
     resourcesContent.textContent = 'Error loading resources: ' + error.message;
   });
+
+// spec
+
+const specContent = document.getElementById('spec-content');
+
+// Fetch the Markdown file
+fetch('starlark-spec/spec.md')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to load resources.');
+    }
+    return response.text();
+  })
+  .then(markdown => {
+    const html = marked.parse(markdown);
+    specContent.innerHTML = html;
+  })
+  .catch(error => {
+    specContent.textContent = 'Error loading resources: ' + error.message;
+  });
+
 
 </script>
