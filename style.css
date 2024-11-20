@@ -16,13 +16,13 @@ html {
         --starlark-color: #5ca9b3;
         --bg-text: #222;
         --text-color: #fff;
-        --code-bg: #111; /* <code> */
+        --code-bg: #333; /* <code> */
         --body-bg: #111;
         --bg-label: #333;
         --fg-label: #ccc;
         --bg-resizer: #555;
         --border-resizer: #000;
-        --bg-tabs: #222;
+        --bg-tabs: #111;
     }
 
     a {
@@ -58,6 +58,10 @@ html {
         border-radius: 4px;
         
     }
+}
+
+h2, strong {
+    color: var(--starlark-color);
 }
 
 #playground {

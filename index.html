@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="style.css">
 
   <script type="text/javascript" src="wasm_exec.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="text/javascript">
 
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked-gfm-heading-id/lib/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 </head>
 
@@ -59,18 +59,35 @@
 
     <div id="about" class="tab-content active">
       <p>
-        Starlark is a small and embeddable language designed for configuration and scripting.
-        Starlark uses a Python-like syntax that should be familiar to most developers.
+        Starlark is a small language designed to be embedded in another application,
+        to provide configuration or scripting abilities.  
+      </p>
+
+      <p>
+        Starlark is a dialect of Python. Like Python, it is a dynamically typed
+        language with high-level data types, first-class functions with lexical
+        scope, and garbage collection. Independent Starlark threads execute in
+        parallel, so Starlark workloads scale well on parallel machines.
+        Starlark is a small and simple language with a familiar and highly
+        readable syntax. You can use it as an expressive notation for structured
+        data, defining functions to eliminate repetition, or you can use it to
+        add scripting capabilities to an existing application.
       </p>
 
       <h2>Why Starlark</h2>
 
       <ul>
-        <li><b>Embeddable</b> - Lightweight and easy to integrate into your application.
-        <li><b>Simple</b> - A minimalistic design prioritizing readability and ease of use for a wide audience.
-        <li><b>Thread-Safe</b>: Optimized for parallel execution without compromising safety.
-          Data that is shared by multiple modules becomes immutable.
-        <li><b>Deterministic Execution</b> - Executing the same code twice will give the same results.
+        <li><strong>Deterministic evaluation</strong> - Executing the same code twice will give the same results.
+        <li><strong>Hermetic execution</strong> - Execution cannot access the file system, network, system clock. It is safe to execute untrusted code.
+        <li><strong>Parallel evaluation</strong> - Modules can be loaded in parallel. To guarantee a thread-safe execution, shared data becomes immutable.
+        <li><strong>Simplicity</strong> - We try to limit the number of concepts needed to
+          understand the code. Users should be able to quickly read and write
+          code, even if they are not experts. The language should avoid pitfalls
+          as much as possible.
+        <li><strong>Focus on tooling</strong> - We recognize that the source code will be read, analyzed, modified, by both humans and tools.
+        <li><strong>Python-like</strong> - Python is a widely used language. Keeping the
+          language similar to Python can reduce the learning curve and make the
+          semantics more obvious to users.
       </ul>
     </div>
 
@@ -136,6 +153,8 @@
         document.getElementById(button.dataset.tab).classList.add('active');
       });
     });
+
+    marked.use(markedGfmHeadingId.gfmHeadingId());
 
     // Load and convert Markdown for the Resources tab
     const resourcesContent = document.getElementById('resources-content');
