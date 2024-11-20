@@ -7,24 +7,10 @@
   <title>Starlark</title>
   <link rel="stylesheet" href="style.css">
 
-  <script type="text/javascript" src="third_party/codeflask.min.js"></script>
-  <script type="text/javascript" src="third_party/prism-python.js"></script>
   <script type="text/javascript" src="wasm_exec.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script type="text/javascript">
-    async function run(fileUrl) {
-      try {
-        const go = new Go();
-        const file = await fetch(fileUrl, { cache: "no-cache" });
-        const buffer = await file.arrayBuffer();
-        const { instance } = await WebAssembly.instantiate(buffer, go.importObject);
-        go.run(instance);
-        init();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    setTimeout(() => run("/build/starlark-go.wasm"));
+
   </script>
 
 </head>
@@ -34,7 +20,10 @@
   <div class="tabs-container">
     <!-- Tabs -->
     <div class="tabs">
-      <h1>Starlark</h1>
+      <div class="logo">
+        <img src="img/logo.png" alt="Starlark unofficial logo" class="logo" width="96px">
+        <h1>Starlark</h1>
+      </div>
       <button class="tab-button active" data-tab="about">About</button>
       <button class="tab-button" data-tab="playground">Playground</button>
       <button class="tab-button" data-tab="resources">Resources</button>
@@ -45,10 +34,10 @@
       <div id="code-container" class="editor-output-container">
         <div class="editor-container">
           <label for="editor">Code Editor</label>
-          <div id="code-window" class="code-window">
-            <div id="code-editor" class="code-editor"></div>
-          </div>
 
+          <div id="code-window" class="code-window">
+            <!-- <div id="code-editor" class="code-editor"></div> -->
+          </div>
         </div>
 
         <div class="resizer" id="resizer"></div>
@@ -68,148 +57,171 @@
       <div id="spec-content">Loading resources...</div>
     </div>
 
-  <div id="about" class="tab-content active">
-    <p>Starlark is a dialect of Python, designed to be embedded in other applications.
-      Like Python, it is a dynamically typed language with high-level data types,
-      first-class functions with lexical scope, and garbage collection. Independent
-      Starlark threads execute in parallel, so Starlark workloads scale well on parallel
-      machines. Starlark is a small and simple language with a familiar and highly
-      readable syntax. You can use it as an expressive notation for structured data,
-      defining functions to eliminate repetition, or you can use it to add scripting
-      capabilities to an existing application.
-    <p>See the source of this website and contribute at: <a href="https://github.com/laurentlb/starlark-lang.org">https://github.com/laurentlb/starlark-lang.org</a></p>
-  </div>
+    <div id="about" class="tab-content active">
+      <p>
+        Starlark is a small and embeddable language designed for configuration and scripting.
+        Starlark uses a Python-like syntax that should be familiar to most developers.
+      </p>
+
+      <h2>Why Starlark</h2>
+
+      <ul>
+        <li><b>Embeddable</b> - Lightweight and easy to integrate into your application.
+        <li><b>Simple</b> - A minimalistic design prioritizing readability and ease of use for a wide audience.
+        <li><b>Thread-Safe</b>: Optimized for parallel execution without compromising safety.
+          Data that is shared by multiple modules becomes immutable.
+        <li><b>Deterministic Execution</b> - Executing the same code twice will give the same results.
+      </ul>
+    </div>
 
   </div>
-</div>
+  </div>
 
-<script>
-  const flask = new CodeFlask('.code-editor', {
-    language: 'py',
-    lineNumbers: true
-  });
+  <script>
+    var output = document.getElementById("output");
+    var wrapper = document.getElementById("wrapper");
 
-  flask.addLanguage('py', Prism.languages.python)
+    // Called from main.go
+    function setError(msg) {
+      output.textContent = msg;
+    }
 
+    // Called from main.go
+    function updateOutput(msg) {
+      output.textContent += msg + "\n";
+    }
 
-  var error = document.getElementById("error");
-  var output = document.getElementById("output");
-  var wrapper = document.getElementById("wrapper");
+    const resizer = document.getElementById('resizer');
+    const editorCont = document.querySelector('.editor-container');
+    const outputCont = document.querySelector('.output-container');
+    let isResizing = false;
 
-  // Called from main.go
-  function setError(msg) {
-    output.textContent = msg;
-  }
-
-  // Called from main.go
-  function updateOutput(msg) {
-    output.textContent += msg + "\n";
-  }
-
-  function init() {
-    flask.updateCode(`name = "world"
-print("Hello {}!".format(name))
-`);
-
-    flask.onUpdate((code) => {
-      // Triggered whenever the code is updated.
-      // error.textContent = "";
-      output.textContent = "";
-      evalStarlark(flask.getCode()); // wasm function (in main.go)
+    // Listen for mouse down on the resizer
+    resizer.addEventListener('mousedown', (e) => {
+      isResizing = true;
+      document.body.style.cursor = 'ew-resize';
     });
-  }
 
+    // Listen for mouse movement
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const container = resizer.parentElement;
+      const offsetLeft = e.clientX - container.offsetLeft;
+      const containerWidth = container.offsetWidth;
+      const percentage = (offsetLeft / containerWidth) * 100;
 
-  const resizer = document.getElementById('resizer');
-  const editorCont = document.querySelector('.editor-container');
-  const outputCont = document.querySelector('.output-container');
-  let isResizing = false;
-
-  // Listen for mouse down on the resizer
-  resizer.addEventListener('mousedown', (e) => {
-    isResizing = true;
-    document.body.style.cursor = 'ew-resize';
-  });
-
-  // Listen for mouse movement
-  document.addEventListener('mousemove', (e) => {
-    if (!isResizing) return;
-    const container = resizer.parentElement;
-    const offsetLeft = e.clientX - container.offsetLeft;
-    const containerWidth = container.offsetWidth;
-    const percentage = (offsetLeft / containerWidth) * 100;
-
-    editorCont.style.flex = `${percentage} 0 0`;
-    outputCont.style.flex = `${100 - percentage} 0 0`;
-  });
-
-  // Listen for mouse up
-  document.addEventListener('mouseup', () => {
-    if (isResizing) {
-      isResizing = false;
-      document.body.style.cursor = 'default';
-    }
-  });
-
-
-  // Tabs
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      tabContents.forEach(content => content.classList.remove('active'));
-
-      button.classList.add('active');
-      document.getElementById(button.dataset.tab).classList.add('active');
+      editorCont.style.flex = `${percentage} 0 0`;
+      outputCont.style.flex = `${100 - percentage} 0 0`;
     });
-  });
 
-// Load and convert Markdown for the Resources tab
-const resourcesContent = document.getElementById('resources-content');
+    // Listen for mouse up
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        document.body.style.cursor = 'default';
+      }
+    });
 
-// Fetch the Markdown file
-fetch('/awesome-starlark/README.md')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Failed to load resources.');
+
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Load and convert Markdown for the Resources tab
+    const resourcesContent = document.getElementById('resources-content');
+
+    // Fetch the Markdown file
+    fetch('/awesome-starlark/README.md')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load resources.');
+        }
+        return response.text();
+      })
+      .then(markdown => {
+        // Remove things before the first ## heading.
+        const trimmedMarkdown = markdown.split(/^## /m).slice(1).join('## ');
+        const cleanedMarkdown = '## ' + trimmedMarkdown; // Re-add the first ## for proper Markdown formatting
+        const header = `*Suggest resources by opening a pull request on [awesome-starlark](https://github.com/laurentlb/awesome-starlark)*\n\n`;
+
+        // Convert Markdown to HTML using Marked.js
+        const html = marked.parse(header + cleanedMarkdown);
+        resourcesContent.innerHTML = html;
+      })
+      .catch(error => {
+        resourcesContent.textContent = 'Error loading resources: ' + error.message;
+      });
+
+    // spec
+
+    const specContent = document.getElementById('spec-content');
+
+    // Fetch the Markdown file
+    fetch('starlark-spec/spec.md')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load resources.');
+        }
+        return response.text();
+      })
+      .then(markdown => {
+        const html = marked.parse(markdown);
+        specContent.innerHTML = html;
+      })
+      .catch(error => {
+        specContent.textContent = 'Error loading resources: ' + error.message;
+      });
+
+  </script>
+
+  <script type="module">
+    import {
+      basicEditor
+    } from "https://unpkg.com/prism-code-editor@2.4.1/dist/setups/index.js";
+    import "https://unpkg.com/prism-code-editor@2.4.1/dist/grammars/python.js";
+
+    const editor = basicEditor(
+      "#code-window",
+      {
+        language: "python",
+        theme: "github-light",
+        value: `print("hello world!")\n`,
+      },
+      () => {
+        console.log("ready");
+      }
+    );
+
+    async function run(fileUrl) {
+      try {
+        const go = new Go();
+        const file = await fetch(fileUrl, { cache: "no-cache" });
+        const buffer = await file.arrayBuffer();
+        const { instance } = await WebAssembly.instantiate(buffer, go.importObject);
+        go.run(instance);
+        evalStarlark(editor.value);
+      } catch (err) {
+        console.error(err);
+      }
     }
-    return response.text();
-  })
-  .then(markdown => {
-    // Remove things before the first ## heading.
-    const trimmedMarkdown = markdown.split(/^## /m).slice(1).join('## ');
-    const cleanedMarkdown = '## ' + trimmedMarkdown; // Re-add the first ## for proper Markdown formatting
-    const header = `*Suggest resources by opening a pull request on [awesome-starlark](https://github.com/laurentlb/awesome-starlark)*\n\n`;
+    setTimeout(() => run("/build/starlark-go.wasm"));
 
-    // Convert Markdown to HTML using Marked.js
-    const html = marked.parse(header + cleanedMarkdown);
-    resourcesContent.innerHTML = html;
-  })
-  .catch(error => {
-    resourcesContent.textContent = 'Error loading resources: ' + error.message;
-  });
-
-// spec
-
-const specContent = document.getElementById('spec-content');
-
-// Fetch the Markdown file
-fetch('starlark-spec/spec.md')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Failed to load resources.');
-    }
-    return response.text();
-  })
-  .then(markdown => {
-    const html = marked.parse(markdown);
-    specContent.innerHTML = html;
-  })
-  .catch(error => {
-    specContent.textContent = 'Error loading resources: ' + error.message;
-  });
-
-
-</script>
+    setTimeout(() => {
+      editor.addListener("update", (code) => {
+        output.textContent = "";
+        if (typeof evalStarlark !== "undefined") {
+          evalStarlark(code); // wasm function (in main.go)
+        }
+      });
+    });
+  </script>

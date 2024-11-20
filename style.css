@@ -1,3 +1,7 @@
+html {
+    --starlark-color: #5ca9b3;
+}
+
 #resources, #about, #spec {
     max-width: 800px;
     background: white;
@@ -43,9 +47,9 @@ code {
 }
 
 .code-window {
-    background: #fff;
-    position: relative;
+    background: #eee;
     height: 100%;
+    overflow: auto;
 }
 
 .code-editor {
@@ -54,14 +58,23 @@ code {
     height: 100%;
 }
 
-h1 {
+.logo {
     flex: 1;
     align-content: center;
-    color: #ddd;
-    font-size: 24px;
-    margin: 0px;
-    padding: 0px 8px;
     text-align: center;
+
+    h1 {
+        padding: 0px 8px;
+        margin: -28px 0px 4px 0px;
+        color: var(--starlark-color);
+        line-height: 1em;
+        font-variant: small-caps;
+        font-size: 20px;
+    }
+
+    img {
+        width: 96px;
+    }
 }
 
 body {
@@ -155,31 +168,34 @@ ul {
 
 .tabs {
     display: flex;
-    background-color: #333;
+    background-color: #222;
 }
 
 .tab-button {
     flex: 1;
     padding: 0.5em;
     text-align: center;
-    background: #333;
+    background: inherit;
     color: #e0e0e0;
     font-weight: bold;
     cursor: pointer;
     border: none;
     outline: none;
     margin: 8px 4px;
-    transition: background 0.5s ease, color 0.5s ease;
+    border: 1px solid #0000;
+    transition: all 0.5s ease;
+    height: fit-content;
+    align-self: center;
 }
 
 .tab-button.active {
-    background: #444;
-    color: #bbf;
-    border: 1px solid #bbf;
+    background: #5ca9b310;
+    color: var(--starlark-color);
+    border: 1px solid var(--starlark-color);
 }
 
 .tab-button:hover {
-    background: #444;
+    background: #5ca9b310;
 }
 
 /* Tab content */
