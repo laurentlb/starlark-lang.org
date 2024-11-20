@@ -1,10 +1,38 @@
 html {
     --starlark-color: #5ca9b3;
+    --bg-text: #ddd;
+    --text-color: #000;
+    --code-bg: #eee; /* <code> */
+    --body-bg: #eee;
+    --bg-label: #ccc;
+    --fg-label: #333;
+    --bg-resizer: #aaa;
+    --border-resizer: #333;
+    --bg-tabs: #222;
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        --starlark-color: #5ca9b3;
+        --bg-text: #222;
+        --text-color: #fff;
+        --code-bg: #111; /* <code> */
+        --body-bg: #111;
+        --bg-label: #333;
+        --fg-label: #ccc;
+        --bg-resizer: #555;
+        --border-resizer: #000;
+        --bg-tabs: #222;
+    }
+
+    a {
+        color: #aaf;
+    }
 }
 
 #resources, #about, #spec {
     max-width: 800px;
-    background: white;
+    background: var(--bg-text);
     margin: 1em;
     border: 1px solid #888;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
@@ -17,15 +45,15 @@ html {
     }
 
     h1 {
-        color: #111;
+        color: var(--text-color);
     }
 
     code {
-        background: #eee;
+        background: var(--code-bg);
     }
 
     pre {
-        background: #eee;
+        background: var(--code-bg);
         padding: 4px;
         border-radius: 4px;
         
@@ -37,17 +65,11 @@ html {
     overflow: hidden;
 }
 
-.error {
-    padding: 20px 0 0;
-    color: #F00;
-}
-
 code {
     white-space: pre-wrap;
 }
 
 .code-window {
-    background: #eee;
     height: 100%;
     overflow: auto;
 }
@@ -80,15 +102,15 @@ code {
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #eee;
-    color: #111;
+    background-color: var(--body-bg);
+    color: var(--text-color);
     line-height: 1.6;
 }
 
 .editor-output-container {
     display: flex;
     flex-direction: row;
-    background: #ddd;
+    background: var(--bg-text);
     width: 100%;
     height: 100%;
 }
@@ -101,11 +123,15 @@ body {
     min-width: 200px;
 }
 
+.prism-code-editor {
+    height: 100% !important;
+}
+
 label {
     font-weight: bold;
-    color: #333;
+    color: var(--fg-label);
     padding: 0.5em;
-    background: #ccc;
+    background: var(--bg-label);
 }
 
 ul {
@@ -117,10 +143,6 @@ ul {
     flex: 1;
     padding: 10px;
     font-family: monospace;
-    font-size: 14px;
-    border: none;
-    outline: none;
-    color: #111;
     white-space: pre-wrap;
     overflow: auto;
 }
@@ -131,8 +153,8 @@ ul {
 
 .resizer {
     min-width: 4px;
-    background: #aaa;
-    border: solid #333;
+    background: var(--bg-resizer);
+    border: solid var(--border-resizer);
     border-width: 0px 1px;
     cursor: ew-resize;
 }
@@ -156,8 +178,6 @@ ul {
     }
 }
 
-/* --- */
-
 
 /* Tabs */
 .tabs-container {
@@ -168,7 +188,7 @@ ul {
 
 .tabs {
     display: flex;
-    background-color: #222;
+    background-color: var(--bg-tabs);
 }
 
 .tab-button {

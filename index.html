@@ -185,17 +185,18 @@
   </script>
 
   <script type="module">
-    import {
-      basicEditor
-    } from "https://unpkg.com/prism-code-editor@2.4.1/dist/setups/index.js";
+    import { basicEditor } from "https://unpkg.com/prism-code-editor@2.4.1/dist/setups/index.js";
+    import { loadTheme } from "https://unpkg.com/prism-code-editor@2.4.1/dist/themes"
     import "https://unpkg.com/prism-code-editor@2.4.1/dist/grammars/python.js";
+
+    const isDark = matchMedia("(prefers-color-scheme: dark)").matches;
 
     const editor = basicEditor(
       "#code-window",
       {
         language: "python",
-        theme: "github-light",
-        value: `print("hello world!")\n`,
+        theme: isDark ? "github-dark" : "github-light", // "github-light",
+        value: `name = "world"\nprint("Hello {}!".format(name))\n`,
       },
       () => {
         console.log("ready");
@@ -217,6 +218,7 @@
     setTimeout(() => run("/build/starlark-go.wasm"));
 
     setTimeout(() => {
+      editor.scrollContainer.style.height = "100%";
       editor.addListener("update", (code) => {
         output.textContent = "";
         if (typeof evalStarlark !== "undefined") {
