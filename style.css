@@ -242,3 +242,12 @@ ul {
         opacity: 1;
     }
 }
+
+select {
+    background-color: var(--bg-label);
+    border-radius: 3px;
+    border: 0px;
+    color: var(--fg-label);
+    font-family: inherit;
+    font-size: 16px;
+}

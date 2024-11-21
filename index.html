@@ -34,10 +34,14 @@
       <div id="code-container" class="editor-output-container">
         <div class="editor-container">
           <label for="editor">Code Editor</label>
+          <select id="file-select">
+            <option value="hello">Hello</option>
+            <option value="tour">Tour</option>
+            <option value="fizzbuzz">FizzBuzz</option>
+            <option value="debug">Debug</option>
+          </select>
 
-          <div id="code-window" class="code-window">
-            <!-- <div id="code-editor" class="code-editor"></div> -->
-          </div>
+          <div id="code-window" class="code-window"></div>
         </div>
 
         <div class="resizer" id="resizer"></div>
@@ -201,6 +205,23 @@
         specContent.textContent = 'Error loading resources: ' + error.message;
       });
 
+
+  const fileSelect = document.querySelector("#file-select");
+  fileSelect.addEventListener("change", (e) => {
+    const file = e.target.value;
+    fetch(`examples/${file}.star`, { cache: "no-cache" })
+      .then((res) => res.text())
+      .then((code) => {
+        // delete and recreate code-window
+        document.querySelector("#code-window").remove();
+        const newCodeWindow = document.createElement("div");
+        newCodeWindow.id = "code-window";
+        newCodeWindow.classList.add("code-window");
+        document.querySelector(".editor-container").appendChild(newCodeWindow);
+        newEditor(code);
+      });
+  });
+
   </script>
 
   <script type="module">
@@ -210,39 +231,45 @@
 
     const isDark = matchMedia("(prefers-color-scheme: dark)").matches;
 
-    const editor = basicEditor(
-      "#code-window",
-      {
-        language: "python",
-        theme: isDark ? "github-dark" : "github-light", // "github-light",
-        value: `name = "world"\nprint("Hello {}!".format(name))\n`,
-      },
-      () => {
-        console.log("ready");
-      }
-    );
-
-    async function run(fileUrl) {
-      try {
-        const go = new Go();
-        const file = await fetch(fileUrl, { cache: "no-cache" });
-        const buffer = await file.arrayBuffer();
-        const { instance } = await WebAssembly.instantiate(buffer, go.importObject);
-        go.run(instance);
-        evalStarlark(editor.value);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    setTimeout(() => run("/build/starlark-go.wasm"));
-
-    setTimeout(() => {
-      editor.scrollContainer.style.height = "100%";
-      editor.addListener("update", (code) => {
-        output.textContent = "";
-        if (typeof evalStarlark !== "undefined") {
-          evalStarlark(code); // wasm function (in main.go)
+    function newEditor(code) {
+      const editor = basicEditor(
+        "#code-window",
+        {
+          language: "python",
+          theme: isDark ? "github-dark" : "github-light",
+          value: code,
+        },
+        () => {
+          console.log("ready");
         }
+      );
+
+      async function run(fileUrl) {
+        try {
+          const go = new Go();
+          const file = await fetch(fileUrl, { cache: "no-cache" });
+          const buffer = await file.arrayBuffer();
+          const { instance } = await WebAssembly.instantiate(buffer, go.importObject);
+          go.run(instance);
+          output.textContent = "";
+          evalStarlark(editor.value);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      setTimeout(() => run("/build/starlark-go.wasm"));
+
+      setTimeout(() => {
+        editor.scrollContainer.style.height = "100%";
+        editor.addListener("update", (code) => {
+          output.textContent = "";
+          if (typeof evalStarlark !== "undefined") {
+            evalStarlark(code); // wasm function (in main.go)
+          }
+        });
       });
-    });
+    }
+
+    newEditor(`name = "world"\nprint("Hello {}!".format(name))\n`);
+    window.newEditor = newEditor;
   </script>
