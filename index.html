@@ -173,12 +173,13 @@
       })
       .then(markdown => {
         // Remove things before the first ## heading.
-        const trimmedMarkdown = markdown.split(/^## /m).slice(1).join('## ');
-        const cleanedMarkdown = '## ' + trimmedMarkdown; // Re-add the first ## for proper Markdown formatting
+        markdown = markdown.split(/^## /m).slice(1).join('## ');
+        
+        markdown = '## ' + markdown; // Re-add the first ## for proper Markdown formatting
         const header = `*Suggest resources by opening a pull request on [awesome-starlark](https://github.com/laurentlb/awesome-starlark)*\n\n`;
 
         // Convert Markdown to HTML using Marked.js
-        const html = marked.parse(header + cleanedMarkdown);
+        const html = marked.parse(header + markdown);
         resourcesContent.innerHTML = html;
       })
       .catch(error => {
@@ -198,6 +199,9 @@
         return response.text();
       })
       .then(markdown => {
+        // Remove long string that can break mobile view
+        markdown = markdown.replace(/TODO\(https:.*112\)/g, '');
+
         const html = marked.parse(markdown);
         specContent.innerHTML = html;
       })
