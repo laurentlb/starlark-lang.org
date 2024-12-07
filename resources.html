@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Starlark Programming Language</title>
+
+  <meta property="og:image" content="https://starlark-lang.org/img/logo.png">
+  <meta property="og:url" content="https://starlark-lang.org/">
+  <meta property="og:title" content="Starlark Programming Language">
+  <meta property="og:description"
+    content="Starlark is a simple, thread-safe, Python-like language designed to be embedded in another application.">
+  <meta property="og:type" content="website">
+
+  <script type="text/javascript" src="wasm_exec.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked-gfm-heading-id/lib/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+
+<div class="tabs-container">
+  <div class="tabs">
+    <div class="logo">
+      <img src="img/logo.png" alt="Starlark unofficial logo" class="logo" width="96px">
+      <h1>Starlark</h1>
+    </div>
+    <a class="tab-button" href="/">About</a>
+    <a class="tab-button" href="/playground.html">Playground</a>
+    <a class="tab-button active" href="resources.html">Resources</a>
+    <a class="tab-button" href="spec.html">Spec</a>
+  </div>
+
+  <div id="resources" class="tab-content active">
+    <div id="resources-content">Loading resources...</div>
+  </div>
+
+</div>
+
+
+<script>
+  marked.use(markedGfmHeadingId.gfmHeadingId());
+
+  // Load and convert Markdown for the Resources tab
+  const resourcesContent = document.getElementById('resources-content');
+
+  // Fetch the Markdown file
+  fetch('/awesome-starlark/README.md')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to load resources.');
+      }
+      return response.text();
+    })
+    .then(markdown => {
+      // Remove things before the first ## heading.
+      markdown = markdown.split(/^## /m).slice(1).join('## ');
+
+      markdown = '## ' + markdown; // Re-add the first ## for proper Markdown formatting
+      const header = `*Suggest resources by opening a pull request on [awesome-starlark](https://github.com/laurentlb/awesome-starlark)*\n\n`;
+
+      // Convert Markdown to HTML using Marked.js
+      const html = marked.parse(header + markdown);
+      resourcesContent.innerHTML = html;
+    })
+    .catch(error => {
+      resourcesContent.textContent = 'Error loading resources: ' + error.message;
+    });
+
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MDNV1D48SF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-MDNV1D48SF');
+</script>

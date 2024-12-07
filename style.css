@@ -60,6 +60,10 @@ html {
         border-radius: 4px;
 
     }
+
+    h1 {
+        color: var(--starlark-color);
+    }
 }
 
 h2,
@@ -94,7 +98,7 @@ code {
 
     h1 {
         padding: 0px 8px;
-        margin: -28px 0px 4px 0px;
+        margin: -18px 0px 4px 0px;
         color: var(--starlark-color);
         line-height: 1em;
         font-variant: small-caps;
@@ -198,6 +202,8 @@ ul {
 .tab-button {
     flex: 1;
     padding: 0.5em;
+    text-decoration: none;
+    font-size: 0.8em;
     text-align: center;
     background: inherit;
     color: #e0e0e0;
@@ -220,16 +226,6 @@ ul {
 
 .tab-button:hover {
     background: #5ca9b310;
-}
-
-/* Tab content */
-.tab-content {
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.tab-content.active {
-    display: block;
 }
 
 /* Fade-in effect */
@@ -260,7 +256,7 @@ select {
     text-align: center;
     background-color: var(--starlark-color);
     padding: 50px;
-    margin: -16px -16px 32px -16px;
+    margin: 16px 0px;
     box-sizing: content-box;
     color: #000;
 }

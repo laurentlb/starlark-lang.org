@@ -10,7 +10,8 @@
   <meta property="og:image" content="https://starlark-lang.org/img/logo.png">
   <meta property="og:url" content="https://starlark-lang.org/">
   <meta property="og:title" content="Starlark Programming Language">
-  <meta property="og:description" content="Starlark is a simple, thread-safe, Python-like language designed to be embedded in another application.">
+  <meta property="og:description"
+    content="Starlark is a simple, thread-safe, Python-like language designed to be embedded in another application.">
   <meta property="og:type" content="website">
 
   <script type="text/javascript" src="wasm_exec.js"></script>
@@ -21,293 +22,82 @@
 
 </head>
 
-<body>
 
-  <div class="tabs-container">
-    <!-- Tabs -->
-    <div class="tabs">
-      <div class="logo">
-        <img src="img/logo.png" alt="Starlark unofficial logo" class="logo" width="96px">
-        <h1>Starlark</h1>
-      </div>
-      <button class="tab-button active" data-tab="about">About</button>
-      <button class="tab-button" data-tab="playground">Playground</button>
-      <button class="tab-button" data-tab="resources">Resources</button>
-      <button class="tab-button" data-tab="spec">Spec</button>
+<div class="tabs-container">
+  <div class="tabs">
+    <div class="logo">
+      <img src="img/logo.png" alt="Starlark unofficial logo" class="logo" width="96px">
+      <h1>Starlark</h1>
     </div>
+    <a class="tab-button active" href="/">About</a>
+    <a class="tab-button" href="/playground.html">Playground</a>
+    <a class="tab-button" href="resources.html">Resources</a>
+    <a class="tab-button" href="spec.html">Spec</a>
+  </div>
 
-    <div id="playground" class="tab-content">
-      <div id="code-container" class="editor-output-container">
-        <div class="editor-container">
-          <label for="editor">Code Editor</label>
-          <select id="file-select">
-            <option value="hello">Hello</option>
-            <option value="tour">Tour</option>
-            <option value="fizzbuzz">FizzBuzz</option>
-            <option value="debug">Debug</option>
-          </select>
+  <div class="hero">
+    <h1 class="title">Starlark</h1>
+    <p class="subtitle">A simple, thread-safe language with Python syntax,<br>designed for embedding</p>
+  </div>
 
-          <div id="code-window" class="code-window"></div>
-        </div>
+  <div id="about" class="tab-content active">
 
-        <div class="resizer" id="resizer">⣿</div>
 
-        <div class="output-container">
-          <label for="output">Output</label>
-          <code id="output" class="output"></code>
-        </div>
-      </div>
-    </div>
-
-    <div id="resources" class="tab-content">
-      <div id="resources-content">Loading resources...</div>
-    </div>
-
-    <div id="spec" class="tab-content">
-      <div id="spec-content">Loading resources...</div>
-    </div>
-
-    <div id="about" class="tab-content active">
-
-      <div class="hero">
-        <h1 class="title">Starlark</h1>
-        <p class="subtitle">A simple, thread-safe language with Python syntax,<br>designed for embedding</p>
-    </div>
-
-      <!-- <h1>Starlark</h1>
+    <!-- <h1>Starlark</h1>
       <p class="tagline">A simple, thread-safe language with Python syntax, designed for embedding</p> -->
 
-      <p>
-        Starlark is a small language designed to be embedded in another application,
-        to provide configuration or scripting abilities.  
-      </p>
+    <p>
+      Starlark is a small language designed to be embedded in another application,
+      to provide configuration or scripting abilities.
+    </p>
 
-      <p>
-        Starlark is a dialect of Python. Like Python, it is a dynamically typed
-        language with high-level data types, first-class functions with lexical
-        scope, and garbage collection. Independent Starlark threads execute in
-        parallel, so Starlark workloads scale well on parallel machines.
-        Starlark is a small and simple language with a familiar and highly
-        readable syntax. You can use it as an expressive notation for structured
-        data, defining functions to eliminate repetition, or you can use it to
-        add scripting capabilities to an existing application.
-      </p>
+    <p>
+      Starlark is a dialect of Python. Like Python, it is a dynamically typed
+      language with high-level data types, first-class functions with lexical
+      scope, and garbage collection. Independent Starlark threads execute in
+      parallel, so Starlark workloads scale well on parallel machines.
+      Starlark is a small and simple language with a familiar and highly
+      readable syntax. You can use it as an expressive notation for structured
+      data, defining functions to eliminate repetition, or you can use it to
+      add scripting capabilities to an existing application.
+    </p>
 
-      <h2>Why Starlark</h2>
+    <h2>Why Starlark</h2>
 
-      <ul>
-        <li><strong>Deterministic evaluation</strong> - Executing the same code twice will give the same results.
-        <li><strong>Hermetic execution</strong> - Execution cannot access the file system, network, system clock. It is safe to execute untrusted code.
-        <li><strong>Parallel evaluation</strong> - Modules can be loaded in parallel. To guarantee a thread-safe execution, shared data becomes immutable.
-        <li><strong>Simplicity</strong> - We try to limit the number of concepts needed to
-          understand the code. Users should be able to quickly read and write
-          code, even if they are not experts. The language should avoid pitfalls
-          as much as possible.
-        <li><strong>Focus on tooling</strong> - We recognize that the source code will be read, analyzed, modified, by both humans and tools.
-        <li><strong>Python-like</strong> - Python is a widely used language. Keeping the
-          language similar to Python can reduce the learning curve and make the
-          semantics more obvious to users.
-      </ul>
+    <ul>
+      <li><strong>Deterministic evaluation</strong> - Executing the same code twice will give the same results.
+      <li><strong>Hermetic execution</strong> - Execution cannot access the file system, network, system clock. It is
+        safe to execute untrusted code.
+      <li><strong>Parallel evaluation</strong> - Modules can be loaded in parallel. To guarantee a thread-safe
+        execution, shared data becomes immutable.
+      <li><strong>Simplicity</strong> - We try to limit the number of concepts needed to
+        understand the code. Users should be able to quickly read and write
+        code, even if they are not experts. The language should avoid pitfalls
+        as much as possible.
+      <li><strong>Focus on tooling</strong> - We recognize that the source code will be read, analyzed, modified, by
+        both humans and tools.
+      <li><strong>Python-like</strong> - Python is a widely used language. Keeping the
+        language similar to Python can reduce the learning curve and make the
+        semantics more obvious to users.
+    </ul>
 
-      <hr>
+    <hr>
 
-      <p style="font-style: italic; font-size: 1em">
-        Starlark was designed at Google; see <a
-        href="https://github.com/bazelbuild/starlark/">bazelbuild/starlark</a> for
-        official documentation. However, this website is not affiliated with
-        Google. You may contribute to this website at <a
+    <p style="font-style: italic; font-size: 1em">
+      Starlark was designed at Google; see <a href="https://github.com/bazelbuild/starlark/">bazelbuild/starlark</a> for
+      official documentation. However, this website is not affiliated with
+      Google. You may contribute to this website at <a
         href="https://github.com/laurentlb/starlark-lang.org">laurentlb/starlark-lang.org</a>.
-      </p>
-  
-    </div>
+    </p>
 
   </div>
-  </div>
 
-<script>
-    var output = document.getElementById("output");
-    var wrapper = document.getElementById("wrapper");
-
-    // Called from main.go
-    function setError(msg) {
-      output.textContent = msg;
-    }
-
-    // Called from main.go
-    function updateOutput(msg) {
-      output.textContent += msg + "\n";
-    }
-
-    const resizer = document.getElementById('resizer');
-    const editorCont = document.querySelector('.editor-container');
-    const outputCont = document.querySelector('.output-container');
-    let isResizing = false;
-
-    // Listen for mouse down on the resizer
-    resizer.addEventListener('mousedown', (e) => {
-      isResizing = true;
-      document.body.style.cursor = 'ew-resize';
-    });
-
-    // Listen for mouse movement
-    document.addEventListener('mousemove', (e) => {
-      if (!isResizing) return;
-      const container = resizer.parentElement;
-      const offsetLeft = e.clientX - container.offsetLeft;
-      const containerWidth = container.offsetWidth;
-      const percentage = (offsetLeft / containerWidth) * 100;
-
-      editorCont.style.flex = `${percentage} 0 0`;
-      outputCont.style.flex = `${100 - percentage} 0 0`;
-    });
-
-    // Listen for mouse up
-    document.addEventListener('mouseup', () => {
-      if (isResizing) {
-        isResizing = false;
-        document.body.style.cursor = 'default';
-      }
-    });
-
-
-    // Tabs
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
-
-        button.classList.add('active');
-        document.getElementById(button.dataset.tab).classList.add('active');
-      });
-    });
-
-    marked.use(markedGfmHeadingId.gfmHeadingId());
-
-    // Load and convert Markdown for the Resources tab
-    const resourcesContent = document.getElementById('resources-content');
-
-    // Fetch the Markdown file
-    fetch('/awesome-starlark/README.md')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to load resources.');
-        }
-        return response.text();
-      })
-      .then(markdown => {
-        // Remove things before the first ## heading.
-        markdown = markdown.split(/^## /m).slice(1).join('## ');
-        
-        markdown = '## ' + markdown; // Re-add the first ## for proper Markdown formatting
-        const header = `*Suggest resources by opening a pull request on [awesome-starlark](https://github.com/laurentlb/awesome-starlark)*\n\n`;
-
-        // Convert Markdown to HTML using Marked.js
-        const html = marked.parse(header + markdown);
-        resourcesContent.innerHTML = html;
-      })
-      .catch(error => {
-        resourcesContent.textContent = 'Error loading resources: ' + error.message;
-      });
-
-    // spec
-
-    const specContent = document.getElementById('spec-content');
-
-    // Fetch the Markdown file
-    fetch('starlark-spec/spec.md')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to load resources.');
-        }
-        return response.text();
-      })
-      .then(markdown => {
-        // Remove long string that can break mobile view
-        markdown = markdown.replace(/TODO\(https:.*112\)/g, '');
-
-        const html = marked.parse(markdown);
-        specContent.innerHTML = html;
-      })
-      .catch(error => {
-        specContent.textContent = 'Error loading resources: ' + error.message;
-      });
-
-
-  const fileSelect = document.querySelector("#file-select");
-  fileSelect.addEventListener("change", (e) => {
-    const file = e.target.value;
-    fetch(`examples/${file}.star`, { cache: "no-cache" })
-      .then((res) => res.text())
-      .then((code) => {
-        // delete and recreate code-window
-        document.querySelector("#code-window").remove();
-        const newCodeWindow = document.createElement("div");
-        newCodeWindow.id = "code-window";
-        newCodeWindow.classList.add("code-window");
-        document.querySelector(".editor-container").appendChild(newCodeWindow);
-        newEditor(code);
-      });
-  });
-
-  </script>
-
-  <script type="module">
-    import { basicEditor } from "https://unpkg.com/prism-code-editor@2.4.1/dist/setups/index.js";
-    import { loadTheme } from "https://unpkg.com/prism-code-editor@2.4.1/dist/themes"
-    import "https://unpkg.com/prism-code-editor@2.4.1/dist/grammars/python.js";
-
-    const isDark = matchMedia("(prefers-color-scheme: dark)").matches;
-
-    function newEditor(code) {
-      const editor = basicEditor(
-        "#code-window",
-        {
-          language: "python",
-          theme: isDark ? "github-dark" : "github-light",
-          value: code,
-        },
-        () => {
-          console.log("ready");
-        }
-      );
-
-      async function run(fileUrl) {
-        try {
-          const go = new Go();
-          const file = await fetch(fileUrl, { cache: "no-cache" });
-          const buffer = await file.arrayBuffer();
-          const { instance } = await WebAssembly.instantiate(buffer, go.importObject);
-          go.run(instance);
-          output.textContent = "";
-          evalStarlark(editor.value);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-      setTimeout(() => run("/build/starlark-go.wasm"));
-
-      setTimeout(() => {
-        editor.scrollContainer.style.height = "100%";
-        editor.addListener("update", (code) => {
-          output.textContent = "";
-          if (typeof evalStarlark !== "undefined") {
-            evalStarlark(code); // wasm function (in main.go)
-          }
-        });
-      });
-    }
-
-    newEditor(`name = "world"\nprint("Hello {}!".format(name))\n`);
-    window.newEditor = newEditor;
-</script>
+</div>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MDNV1D48SF"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-MDNV1D48SF');
