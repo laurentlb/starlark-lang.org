@@ -4,10 +4,10 @@
 
 html {
     --starlark-color: #5ca9b3;
-    --bg-text: #ddd;
+    --bg-text: #fff;
     --text-color: #000;
-    --code-bg: #eee; /* <code> */
-    --body-bg: #eee;
+    --bg-code: #eee; /* <code> */
+    --bg-body: #eee;
     --bg-label: #ccc;
     --fg-label: #333;
     --bg-resizer: #aaa;
@@ -20,8 +20,8 @@ html {
         --starlark-color: #5ca9b3;
         --bg-text: #222;
         --text-color: #fff;
-        --code-bg: #333; /* <code> */
-        --body-bg: #111;
+        --bg-code: #333; /* <code> */
+        --bg-body: #111;
         --bg-label: #333;
         --fg-label: #ccc;
         --bg-resizer: #555;
@@ -40,7 +40,7 @@ html {
     max-width: 800px;
     background: var(--bg-text);
     margin: 1em;
-    border: 1px solid #888;
+    border: 1px solid #8884;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
     align-self: center;
     padding: 16px;
@@ -51,11 +51,11 @@ html {
     }
 
     code {
-        background: var(--code-bg);
+        background: var(--bg-code);
     }
 
     pre {
-        background: var(--code-bg);
+        background: var(--bg-code);
         padding: 4px;
         border-radius: 4px;
 
@@ -64,6 +64,10 @@ html {
     h1 {
         color: var(--starlark-color);
     }
+}
+
+h2 {
+    border-bottom: 1px solid var(--starlark-color);
 }
 
 h2,
@@ -113,7 +117,7 @@ code {
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: var(--body-bg);
+    background-color: var(--bg-body);
     color: var(--text-color);
     line-height: 1.6;
 }
@@ -255,8 +259,7 @@ select {
 .hero {
     text-align: center;
     background-color: var(--starlark-color);
-    padding: 50px;
-    margin: 16px 0px;
+    padding: 48px;
     box-sizing: content-box;
     color: #000;
 }
