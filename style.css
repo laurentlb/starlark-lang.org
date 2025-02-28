@@ -18,15 +18,15 @@ html {
 @media (prefers-color-scheme: dark) {
     html {
         --starlark-color: #5ca9b3;
-        --bg-text: #222;
+        --bg-text: #202026;
         --text-color: #fff;
         --bg-code: #333; /* <code> */
-        --bg-body: #111;
+        --bg-body: #001;
         --bg-label: #333;
         --fg-label: #ccc;
         --bg-resizer: #555;
         --border-resizer: #000;
-        --bg-tabs: #111;
+        --bg-tabs: #001;
     }
 
     a {

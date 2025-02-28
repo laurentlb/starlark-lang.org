@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>Starlark Programming Language</title>
+  <title>Starlark Playground (REPL)</title>
 
   <meta property="og:image" content="https://starlark-lang.org/img/logo.png">
   <meta property="og:url" content="https://starlark-lang.org/">
   <meta property="og:title" content="Starlark Programming Language">
-  <meta property="og:description"
-    content="Starlark is a simple, thread-safe, Python-like language designed to be embedded in another application.">
+  <meta name="description" property="og:description"
+    content="Online playground (REPL) for the Starlark programming language.">
   <meta property="og:type" content="website">
 
   <script type="text/javascript" src="wasm_exec.js"></script>
@@ -23,21 +23,21 @@
 </head>
 
 <div class="tabs-container">
-  <div class="tabs">
+  <header class="tabs">
     <div class="logo">
-      <img src="img/logo.png" alt="Starlark unofficial logo" class="logo" width="96px">
+      <img src="img/logo.png" alt="Starlark logo (unofficial)" class="logo" width="96px">
       <h1>Starlark</h1>
     </div>
     <a class="tab-button" href="/">About</a>
     <a class="tab-button active" href="/playground.html">Playground</a>
     <a class="tab-button" href="resources.html">Resources</a>
     <a class="tab-button" href="spec.html">Spec</a>
-  </div>
+  </header>
 
-  <div id="playground" class="tab-content active">
+  <article id="playground">
     <div id="code-container" class="editor-output-container">
       <div class="editor-container">
-        <label for="editor">Code Editor</label>
+        <label for="editor">Starlark Code Editor</label>
         <select id="file-select">
           <option value="hello">Hello</option>
           <option value="tour">Tour</option>
@@ -56,7 +56,7 @@
         <code id="output" class="output"></code>
       </div>
     </div>
-  </div>
+  </article>
 
 </div>
 
